@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Modified Metric Time (MMT)</title>
+</head>
+<body>
+	<style>
+	.dib { display: inline-block; }
+	.pa3 { padding: 3rem; }
+	.pa2 { padding: 2rem; }
+	.pa1 { padding: 1rem; }
+	.pa0_5 { padding: .5rem; }
+	.ph1 { padding-top: 1rem; padding-bottom: 1rem;}
+	.f5 { font-size: 5rem; }
+	.f4 { font-size: 4rem; }
+	.f3 { font-size: 3rem; }
+	.f2 { font-size: 2rem; }
+	.ba { border: 1px solid black; }
+	.br1 { border-radius: 1rem; }
+	.tc {text-align: center;}
+	.tl {text-align: left;}
+	.container {
+		padding-right: 15px;
+		padding-left: 15px;
+		margin-right: auto;
+		margin-left: auto;
+	}
+	@media (min-width: 768px) {
+		.container {
+			width: 750px;
+		}
+	}
+	@media (min-width: 992px) {
+		.container {
+			width: 970px;
+		}
+	}
+	@media (min-width: 1200px) {
+		.container {
+			width: 1170px;
+		}
+	}
+
+	.bg-light-grey {
+		background-color: #f6f6f6;
+	}
+
+	.grey {
+		color: #777;
+	}
+</style>
+<div class='container'>
+	<h2 class='tc'>Current Time</h2>
+	<div class='tc grey' id='current-clock'>
+		<div class='dib pa1 f3 br1' id='hours'></div>
+		<div class='dib pa0_5 f2 br1'>:</div>
+		<div class='dib pa1 f3 br1' id='minutes'></div>
+		<div class='dib pa0_5 f2 br1'>:</div>
+		<div class='dib pa1 f3 br1' id='seconds'></div>
+	</div>
+
+	<h1 class='tc'>Modified Metric Time (MMT)</h1>
+	<div class='tc bg-light-grey grey br1 ph1' id='mmt-clock'>
+		<div class='dib pa2 f5 br1' id='mmt-hours'></div>
+		<div class='dib pa1 f4 br1'>:</div>
+		<div class='dib pa2 f5 br1' id='mmt-minutes'></div>
+		<div class='dib pa1 f4 br1'>:</div>
+		<div class='dib pa2 f5 br1' id='mmt-seconds'></div>
+	</div>
+
+	<h1>FAQ</h1>
+	<h2>What is Modified Metric Time (MMT)?</h2>
+	<p>
+		Modified Metric Time has 10 hours in a day, 100 minutes in an hour and 100 seconds in a minute. Everything else is the same.  That means there are still 7 days in a week and 365 days in a year, and 12 months in a year.
+	</p>
+	<h2>Why is Modified Metric Time (MMT) Better?</h2>
+	<p>
+		We think everything should be base 10, and that includes time, like the metric system.  Modifed Metric Time is good for both measuring scientific and human activities.  The problem with time as it stands today is it's hard to do simple math. 
+	</p>
+	<p>
+		Let's imagine you are setting a timer on your oven for 1 hour and 15 minutes. Th
+	</p>
+
+	<h2>How is this different from Metric Time</h2>
+	<p>
+		<a href='https://en.wikipedia.org/wiki/Metric_time'>Metric Time</a> is another time system that is great for doing calculations, but it is impractical for measuring human activity.  We believe that MMT is a good middle ground between measuring human activity, and doing scientific calculations.
+	</p>
+
+
+	<h1></h1>
+
+	<table style="width:100%">
+		<tr>
+			<th class='tl'></th>
+			<th class='tl'>Hours</th>
+			<th class='tl'>Minutes</th> 
+			<th class='tl'>Seconds</th>
+		</tr>
+		<tr>
+			<td>Regular Clock</td>
+			<td>24</td>
+			<td>60</td>
+			<td>60</td>
+		</tr>
+		<tr>
+			<td>Modified Metric Time</td> 
+			<td>10</td>
+			<td>100</td> 
+			<td>100</td>
+		</tr>
+	</table>
+</div>
+
+
+<script>
+	function format(num) {
+		let str = String(num < 10 ? "0" + num : num);
+		return str.split(".")[0];
+	}
+
+	function draw() {
+		let now = new Date();
+
+	  let today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+	  let ms = now - today;
+	  let elapsedSeconds = ms / 1000;
+	  let h = elapsedSeconds / (60 * 60);
+	  let m = elapsedSeconds % (60 * 60) / 60;
+	  let s = elapsedSeconds % (60 * 60) % 60 ;
+
+  	ms = now - today;
+  	let elapsedMmts = (ms / 864.0) | 0;
+  	let mmth = elapsedMmts / 10000;
+  	let mmtm = elapsedMmts % 10000 / 100;
+  	let mmts = elapsedMmts % 10000 % 100;
+
+
+	  let hoursDiv = document.getElementById('hours');
+	  let minutesDiv = document.getElementById('minutes');
+	  let secondsDiv = document.getElementById('seconds');
+
+	  hoursDiv.innerText = format(h);
+	  minutesDiv.innerText = format(m);
+	  secondsDiv.innerText = format(s);
+
+	  let mmtHoursDiv = document.getElementById('mmt-hours');
+	  let mmtMinutesDiv = document.getElementById('mmt-minutes');
+	  let mmtSecondsDiv = document.getElementById('mmt-seconds');
+
+	  mmtHoursDiv.innerText = format(mmth);
+	  mmtMinutesDiv.innerText = format(mmtm);
+	  mmtSecondsDiv.innerText = format(mmts);
+	}
+
+	var tid = setInterval(function() {
+		if (document.readyState !== 'complete') return;
+		clearInterval(tid);
+		draw();
+		setInterval(draw, 1);
+	});
+
+</script>
+
+
+</body>
+</html>
